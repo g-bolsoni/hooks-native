@@ -8,16 +8,14 @@ const ActionsTypes = {
 
 }
 
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
   switch (action.type) {
     case ActionsTypes.RESET:
-      if (state.current) {
-        state.textInputRef.current.setNativeProps({ text: '' });
-      }
+      state.textInputRef.current.setNativeProps({ text: '' });
       return state;
 
     case ActionsTypes.WRITE:
-      state.textInputRef.current.setNativeProps({ text: 'Felipe' });
+      state.textInputRef.current.setNativeProps({ text: 'Giovane' });
       return state;
 
     default:
@@ -29,13 +27,21 @@ export default function App() {
   const initialState = {
     textInputRef: useRef<TextInput>(null),
   }
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const resetButton = () => {
+    dispatch({ type: ActionsTypes.RESET });
+  }
+
+  const writeButton = () => {
+    dispatch({ type: ActionsTypes.WRITE });
+  }
 
   return (
     <View style={styles.container}>
       <TextInput
-        ref={textInputRef}
+        ref={state.textInputRef}
         style={{
           height: 40,
           borderColor: 'gray',
@@ -51,6 +57,10 @@ export default function App() {
       <Button
         title='Reset'
         onPress={resetButton}
+      />
+      <Button
+        title='Write'
+        onPress={writeButton}
       />
       <StatusBar style="auto" />
     </View>
